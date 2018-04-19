@@ -5,7 +5,7 @@
 * People want to search through a big [*corpus*](Glossary.md) to find the [*documents*](Glossary.md) most relevant to their interests
 * If we [*embed*](Glossary.md) our [*documents*](Glossary.md) into a vector space we can use the metric of our choice to determine similarity between [*documents*](Glossary.md) and any given search phrase (which we also [*embed*](Glossary.md)).
 * Choosing a methodology for [*embedding*](Glossary.md) is non-trivial; there is no one-size-fits-all best practice and a frustrating (for me, at least) lack of information theoretic rigour about what constitutes a good or sensible choice.
-* Some methodologies we've had success with are Latent Semantic Analysis and the use of Nueral 
+* Some methodologies we've had success with are Latent Semantic Analysis and the use of Neural Network models like Word2Vec and Doc2Vec.
 * All methodologies (that we've tried) are subject to improvements using a lot of sleight-of-hand and parameter tweaking.
 
 ## Motivation
@@ -42,4 +42,6 @@ So all we've done is restated the problem above about being able to rigorously d
 
 ## Methods for [*embedding*](Glossary.md)
 
-There is not a single true way of [*embedding*](Glossary.md) [*documents*](Glossary.md) in a vector space, any more than there is a single true definition of what a [*document*](Glossary.md) means relative to other [*documents*](Glossary.md). Instead, the method you should use will depend on what you want to capture about each [*document*](Glossary.md), and on your own technological preferences, constraints, and biases.
+There is not a single true way of [*embedding*](Glossary.md) [*documents*](Glossary.md) in a vector space, any more than there is a single true definition of what a [*document*](Glossary.md) means relative to other [*documents*](Glossary.md). Instead, the method you should use will depend on what you want to capture about each [*document*](Glossary.md). [This is called feature selection, and you can read about it here](FeatureSelection.md). Additionally, your choice will no doubt depend upon your own technological preferences, constraints, and biases.
+
+Some models that we've used are [Latent Semantic Analysis](LSA.md), and [Neural Network models like Word2Vec and Doc2Vec](NNmodels.md) (click to read about them).
