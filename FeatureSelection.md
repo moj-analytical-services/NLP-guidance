@@ -4,16 +4,26 @@
 
 * We want to [*embed*](Glossary.md) our [*documents*](Glossary.md) into a vector space in a way that takes account of what we think is important about them.
 * Feature selection is the process of selecting what we think is worthwhile in our [*documents*](Glossary.md), and what can be ignored.
-* This will likely include removing [*stopwords*](Glossary.md), and modifying words by making them lower case, choosing what to do with typos or grammar features, and choosing whether to do [*stemming*](Glossary.md).
+* This will likely include removing punctuation and [*stopwords*](Glossary.md), modifying words by making them lower case, choosing what to do with typos or grammar features, and choosing whether to do [*stemming*](Glossary.md).
 * Decisions about how to do these things are usually made by trial and error.
-* The order you follow when doing these processes is not always fixed, and it can take some thought to work out the most efficient way.
+* The order you follow when doing these processes is not always fixed, and it can take some thought to work out the most efficient way. Some times you might need multiple rounds of [*stopword*](Glossary.md) removal, for example. 
 * When turning [*documents*](Glossary.md) into vectors, there isn't a hard and fast distinction between which processes are feature selection and which are part of the [*embedding*](Glossary.md) schema; rather it's one long process.
 
 ## Motivation
 
 We want to decide how to [*embed*](Glossary.md) our [*documents*](Glossary.md) into a vector space in a way that takes account of what we think is important about them. This means that we need to formally define which elements of our [*documents*](Glossary.md) are worth taking notice of, and which can be safely ignored (this is a standard requirement in any machine learning project).
 
-In natural language processing typically our only possibility is choosing which words in a [*document*](Glossary.md) we should consider, and whether we should do any transformation of these words.
+In natural language processing typically our only possibility is choosing which words in a [*document*](Glossary.md) we should consider, and whether we should do any transformation of these words. The first step is often, therefore, to remove the elements of a [*document*](Glossary.md) that are not words: the punctuation marks.
+
+## Removing punctuation
+
+This is usually easily accomplished - in R, for example, there are various different ways of doing it but it's always just one line of code, or a parameter set in a function.
+
+Despite the practical ease of achieving this, it still needs thought. You can choose to replace the punctuation marks with a space, or remove them altogether.
+
+Replacing them with a space turns *it's* into the two words *it* and *s*, rather than the single word *its*. While *it* and *its* are probably removed in steps below, *s* may not be, and can end up being nonsensically part of the [*vocabulary*](Glossary.md). There are probably other examples where it can be problematic, too.
+
+On the other hand, removing punctuation altogether can lead to problems in cases where someone has hyphenated a word. For example, we might want *cross-examination* to become *crossexamination*, but not want *Northern Ireland-related* to become the nonsensical *Northern Irelandrelated*. In my experience you are better off replacing punctuation marks with spaces and then dealing with specific hyphenated words as special cases (but I could be wrong).
 
 ## Choosing words to keep and drop
 
@@ -23,7 +33,7 @@ The advantage of removing words from our analysis is twofold. First, by focussin
 
 There are different methods to follow when deciding which words to remove from analysis. They are not mutually exclusive, and in fact there will often be some overlap between them. Care is needed when thinking about which of these methods to use, and which order to apply them in. Where we have used multiple methods we have often followed a 'belt and braces' approach and not worried about the redundancy in parts of our procedure. It would be better to be clear from the start about what we want to remove, because redundant processes at best waste time, and at worst create unforeseen consequences.
 
-### Stopwords
+### [Stopwords](*Glossary.md)
 
 One method of removing words we don't want our model to consider is to create a list of [*stopwords*](Glossary.md) that are always to be ignored.
 
@@ -59,9 +69,31 @@ The easiest way around this problem is to make all of the text in our [*corpus*]
 
 However, there are occasions when a capitalised first letter does impart meaning. In the case of our work on PQs, we wanted to remove the word *Justice* (capitalised first letter) because it features whenever people ask questions of the "*Secretary of State for Justice*" or the "*Ministry of Justice*", and doesn't impart much meaning (it's unimportant whether or not the person asking the question referenced the department or Secretary of State or not). However, we wanted to leave in the word *justice* (uncapitalised first letter) because it features when people are talking about "*youth justice*" or "*family justice*", which could be an important signifier of the topical content of the question. Our solution was to have two rounds of [*stopword*](Glossary.md) removal, one before and one after making the text lower case. We could then remove *Justice* before making everything lower case and removing the standard the other bespoke stopwords.
 
-### Typos and grammatical quirks
+### Typos
 
-Sometimes typos 
+Sometimes typos can be frequent enough that you spot them in your results and can correct them as part of feature selection. For example, in one of pur projects we had several occurrences of the typo *rehabilitaiton*, which meant the [*documents*](Glossary.md) with this word were not grouped with those containing *rehabilitation*. In that case we were able to correct this typo automatically.
+
+### [Stemming](*Glossary.md*)
+
+Words often take slightly different forms that have grammatical meaning but don't change what the core concept is about. For example, *save*, *saved*, *saves*, and *saving* all encode the same idea but are used to indicate who is doing the action and when.
+
+We may not want this granularity of information in natural language processing projects. Perhaps we don't have enough data to reliably create a model in which these four words are represented as being similar but different, or perhaps we suspect our users will be able to deduce that subtlety for themselves and are more likely to be looking for the concept of saving than for the specific word *saving*.
+
+The solution to this is [*stemming*](Glossary.md), where we follow an algorithm that reduces words down to their roots. In this way *save*, *saved*, *saves*, and *saving* are all reduced to *save*, and [*documents*](Glossary.md) that contain any of these words are automatically seen to have something in common.
+
+Where we've done [*stemming*](Glossary.md) we've followed the [Porter algorithm](https://tartarus.org/martin/PorterStemmer/), which has implementations in a number of programming languages including R. You can see a list of words [here](https://tartarus.org/martin/PorterStemmer/voc.txt) and their Porter stemmed equivalents [here](https://tartarus.org/martin/PorterStemmer/output.txt).
 
 
+## Full transformation
 
+The complete feature selection part of our model will be a combination of the above steps, sometimes doing some of them (e.g. [*stopword*](Glossary.md) removal) multiple times. In the end the transformation will be to turn sentences into (possibly ordered) sets of words from the [*vocabulary*](Glossary.md).
+
+For example, consider the sentence
+> As Gregor Samsa awoke one morning from uneasy dreams he found himself transformed in his bed into a gigantic insect.
+
+If we remove punctuation, remove standard [*stopwords*](Glossary.md), and [*stem*](Glossary.md) the remaining words, we get
+>*awok*, *bed*, *dream*, *found*, *gigant*, *gregor*, *insect*, *morn*, *samsa*, *transform*, *uneasi*  
+
+(in alphabetical order).
+
+We would now need to choose an [*embedding*](Glossary.md) method to turn this set of words into a vector.
