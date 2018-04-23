@@ -41,7 +41,7 @@ The process whereby *documents* or words are coded up as a vector in some (typic
 
 ### Inverse Document Frequency (IDF) weighting
 Assigning a weight to words in the *vocabulary* to represent how much we should take note of their appearance or non-appearance in a *document*, based on what proportion of *documents* in the *corpus* those words appear in. There are [various IDF schemes](https://en.wikipedia.org/wiki/Tf%E2%80%93idf#Inverse_document_frequency_2); we have always used the standard
-$$\log \frac{N}{n_t}$$
+<a align='center' href="https://www.codecogs.com/eqnedit.php?latex=\log&space;\frac{N}{n_t}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\log&space;\frac{N}{n_t}" title="\log \frac{N}{n_t}" /></a>
 weighting for a word $t$, where $N$ is the total number of *documents* in the *corpus*, and $n_t$ is the number of *documents* that contain $t$.
 
 ### Normalising
