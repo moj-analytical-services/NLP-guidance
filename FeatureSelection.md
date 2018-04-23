@@ -96,4 +96,4 @@ If we remove punctuation, remove standard [*stopwords*](Glossary.md), and [*stem
 
 (in alphabetical order).
 
-We would now need to choose an [*embedding*](Glossary.md) method to turn this set of words into a vector.
+We would now need to choose an [*embedding*](Glossary.md) method to turn this set of words into a vector. Possibilities that we've got experience of include [Latent Semantic Analysis](LSA.md) or [Neural Networks models like Word2Vec and Doc2Vec](NNmodels.md).
