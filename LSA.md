@@ -1,6 +1,6 @@
 # Latent Semantic Analysis
 
-##TL; DR
+## TL; DR
 * Latent Semantic Analysis (LSA) is a [*bag of words*](Glossary.md) method of [*embedding*](Glossary.md) [*documents*](Glossary.md) into a vector space.
 * Each word in our [*vocabulary*](Glossary.md) relates to a unique dimension in our vector space. For each [*document*](Glossary.md), we go through the [*vocabulary*](Glossary.md), and assign that [*document*](Glossary.md) a score for each word. This gives the [*document*](Glossary.md) a vector [*embedding*](Glossary.md).
 * There are various schemes by which this scoring can be done. A simple example is to count the number of occurrences of each word in the [*document*](Glossary.md). We can also use [*IDF weighting*](Glossary.md) and [*normalisation*](Glossary.md).
@@ -53,21 +53,21 @@ and gets [*embedded*](Glossary.md) as <a href="https://www.codecogs.com/eqnedit.
 
 There are more advanced, better ways of [*embedding*](Glossary.md) [*documents*](Glossary.md) in our vector space, called "[*weighting schemes*](Glossary.md)". Typically these different schemes vary in three ways: how they take term frequency into account, how they take [*inverse document frequency*](Glossary.md) into account, and whether they [*normalise*](Glossary.md).
 
-###Term frequency
+### Term frequency
 This covers whether how the weighting scheme deals with the frequency of occurrence of each word in the [*vocabulary*](Glossary.md). Two possibilities we've investigated are
 * just counting the frequency of terms; and
 * scoring 1 if a term is used and 0 if it isn't.
 
 This latter, "Boolean" scheme is what we use when doing LSA on Parliamentary Questions: the fact that a PQ mentions the word "prison" more than once (for example, asking for the same statistic about multiple named prisons) doesn't make it more about prisons.
 
-###[Inverse document frequency](Glossary.md)
+### [Inverse document frequency](Glossary.md)
 All words are not equal in information content, even once we have taken out [*stopwords*](Glossary.md). Words that appear in nearly all [*documents*](Glossary.md) in our [*corpus*](Glossary.md) will be unsurprising when we see them; their appearance in a [*document*](Glossary.md) will tell us very little about it. The appearance of a rare word in a [*document*](Glossary.md), however, may be very decisive in helping us discern its information content.
 
 For example, the Ministry of Justice does not get many Parliamentary Questions about Britain leaving the EU. If we see the relatively rare term "*Brexit*" in a question it's a good guide to what the question is about. On the other hand, there are lots of questions about various aspects of prisons, and so the existence of the word "*prison*" in a question tells us less about its specific topical content.
 
 Notice that we consider how rare or common the word in question is within the [*corpus*](Glossary.md) under consideration, not upon how rare or common it is in English in general. Context is everything in language: the appearance of the word "*lobster*" would not be as surprising in a headline from fishing news website [Undercurrent](https://www.undercurrentnews.com/) as it would be in a headline from football website [When Saturday Comes](http://www.wsc.co.uk/).
 
-###[Normalisation](Glossary.md)
+### [Normalisation](Glossary.md)
 
 At some point after applying one or both of the above schemes we can choose whether or not to [*normalise*](Glossary.md) our [*document*](Glossary.md) vector so that it has unit length.
 
@@ -162,4 +162,4 @@ The standard similarity measure to use when comparing [*embedded*](Glossary.md) 
 
 In actual fact we always (re)[*normalise*](Glossary.md) our [*embedding*](Glossary.md) so that everything is on a hypersphere: under these circumstances (I think) Euclidean distance and [*cosine similarity*](Glossary.md) are equivalent.
 
-I am slightly worried as I write this that our re[*normalisation*](Glossary.md) at this stage reduces the dimensionality of our newly-created subspace by one, and in doing means we are doing our similarity on a space that is *not* the closest rank *k*-1 subspace of our original vector space. This might be a problem, but in practice our methods appear to work ok. I'd be loathe to throw out the normalisation as it gives such speed benefits; if any linear algebra whiz wants to tell me how to find the best rank $k$ hyperspherical approximation to a given space I would love to hear it.
+I am slightly worried as I write this that our re[*normalisation*](Glossary.md) at this stage reduces the dimensionality of our newly-created subspace by one, and in doing means we are doing our similarity on a space that is *not* the closest rank *k*-1 subspace of our original vector space. This might be a problem, but in practice our methods appear to work ok. I'd be loathe to throw out the normalisation as it gives such speed benefits; if any linear algebra whiz wants to tell me how to find the best rank *k* hyperspherical approximation to a given space I would love to hear it.
