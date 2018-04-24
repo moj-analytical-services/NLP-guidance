@@ -90,6 +90,6 @@ The set of all words used in the *corpus*, after *stopwords* have been removed a
 
 ### Weighting scheme
 The scheme by which we go from a vector of counts of each word in the *vocabulary* for a given document to an *embedding*. Typically made up of three elements: term frequency, *inverse document frequency*, and *normalisation*.
-#####Example
+##### Example
 * Simply count the occurrences of each word in the the vocabulary, and don't worry about *inverse document frequency* or *normalisation*.
 * Use a Boolean approach to term frequency, recording only the appearance (score 1) or non-appearance (score 0) of words rather than their frequency; multiply this by the *inverse document frequency* score for the word; then *normalise* the resultant vector. This is the weighting scheme used in the Parliamentary Analysis Tool.

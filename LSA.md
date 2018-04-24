@@ -5,7 +5,7 @@
 * Each word in our [*vocabulary*](Glossary.md) relates to a unique dimension in our vector space. For each [*document*](Glossary.md), we go through the [*vocabulary*](Glossary.md), and assign that [*document*](Glossary.md) a score for each word. This gives the [*document*](Glossary.md) a vector [*embedding*](Glossary.md).
 * There are various schemes by which this scoring can be done. A simple example is to count the number of occurrences of each word in the [*document*](Glossary.md). We can also use [*IDF weighting*](Glossary.md) and [*normalisation*](Glossary.md).
 * We make a [*term-document matrix (TDM)*](Glossary.md) out of our [*document*](Glossary.md) vectors. The [*TDM*](Glossary.md) defines a subspace spanned by our [*documents*](Glossary.md).
-* We do a [*singular value decomposition*](https://en.wikipedia.org/wiki/Singular-value_decomposition) to find the closest rank-*k* approximation to this subspace, where *k* is an integer chosen by us. This rank reduction has the effect of implicitly redefining our [*document*](Glossary.md) [*embedding*](Glossary.md) so that it depends on *k* features, which are linear combinations of the original scores for words. This output is the same as that for a [principal component analysis](https://en.wikipedia.org/wiki/Principal_component_analysis) with *k* principal components.
+* We do a [*singular value decomposition*](https://en.wikipedia.org/wiki/Singular-value_decomposition) to find the closest rank-*k* approximation to this subspace, where *k* is an integer chosen by us. This rank reduction has the effect of implicitly redefining our [*document*](Glossary.md) [*embedding*](Glossary.md) so that it depends on *k* features, which are linear combinations of the original scores for words. This is conceptually broadly similar to [principal component analysis](https://en.wikipedia.org/wiki/Principal_component_analysis) with *k* principal components (for the exact relationship, [see e.g. here](https://intoli.com/blog/pca-and-svd/)).
 * We can then define similarity between our [*documents*](Glossary.md) using [*cosine similarity*](Glossary.md): the cosine of the angle between their vectors in the rank-*k* subspace.
 
 ## Motivation
@@ -79,7 +79,7 @@ we can calculate the cosine of the angle between [*document*](Glossary.md) vecto
 
 ## The subspace defined by our [*documents*](Glossary.md)
 
-So now we've embedded our [*documents*](Glossary.md) in our vector space. We can go further and define the subspace spanned by our documents by taking each of the [*document*](Glossary.md) vectors. We do this by defining a [*term-document matrix* (*TDM*)](Glossary.md): the row vectors of this matrix are our [*document*](Glossary.md) vectors, and the columns represent the words in the [*vocabulary*](Glossary.md).
+So now we've embedded our [*documents*](Glossary.md) in our vector space. We can go further and define the subspace spanned by our documents by taking each of the [*document*](Glossary.md) vectors. We do this by defining a [*term-document matrix* (*TDM*)](Glossary.md): the column vectors of this matrix are our [*document*](Glossary.md) vectors, and the rows represent the words in the [*vocabulary*](Glossary.md).
 
 The rank *r* of this matrix (equivalently the rank of the subspace spanned by our [*corpus*](Glossary.md)) will be bounded above by whichever is the smaller out of the size of the [*vocabulary*](Glossary.md) and the number of [*documents*](Glossary.md). This value *r* can be thought of as the number of parameters we would need to be able to fully describe any of our [*documents*](Glossary.md) (under this [*weighting scheme*](Glossary.md)).
 
@@ -91,3 +91,75 @@ Amazingly, thanks to the wonders of linear algebra, we can use our [*term-docume
 
 
 
+## Singular value decomposition
+
+There are plenty of other sites that go through the maths behind Singular value decomposition (SVD) in detail so I won't do that here.
+
+Suffice it to say that we can transform our [*TDM*](Glossary.md) **M** into three matrices **U**, **Σ**, and **V**, such that **X = U Σ V^T^**, where **V^T^** is the transpose of a matrix **V**. **Σ** is a diagonal matrix uniquely defined by **M**. It turns out that the rank-*k* [*embedding*](Glossary.md) for our [*documents*](Glossary.md) that is closest to our original embedding is given by the matrix **M~k~ = U Σ~k~ V^T^** where **Σ~k~** is simply our diagonal matrix with all but the first *k* entries changed to zero.
+
+If we want to get the coordinates of our new rank-*k* [*embedding*](Glossary.md) of our [*documents*](Glossary.md) in the original vector space, they will correspond to the column vectors of **M~k~**. If we want to get the coordinates of our new rank-*k* [*embedding*](Glossary.md) with respect to a basis defining our rank-*k* subspace, so that we can start looking at similarity of [*documents*](Glossary.md) under to this new [*embedding*](Glossary.md), they are given by **Σ~k~ V^T^**. Needless to say, I'm leaving all proofs of all of these statements as "an exercise for the reader"...
+
+## An example with toy data
+
+Just to help you see the sort of thing, here's a toy example. It's necessarily of very low dimension so that it's possible for our tiny human brains to envision it.
+
+Let's suppose our original [*embedding*](Glossary.md) gives a [*term-document matrix*](Glossary.md)
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\mathbf{M}&space;=&space;\begin{bmatrix}&space;1&space;&&space;2&space;&&space;3&space;\\&space;2&space;&&space;4&space;&&space;1&space;\end{bmatrix}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;\mathbf{M}&space;=&space;\begin{bmatrix}&space;1&space;&&space;2&space;&&space;3&space;\\&space;2&space;&&space;4&space;&&space;1&space;\end{bmatrix}" title="original embedding" /></a>
+
+where we have three documents and two terms. I will leave it to the reader to construct thrilling examples of what the terms might be and thus recreate the documents.
+
+We then do a singular-value decomposition and get
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\mathbf{M}&space;=&space;\begin{bmatrix}&space;0.61&space;&&space;0.79&space;\\&space;0.79&space;&&space;-0.61&space;\end{bmatrix}&space;\begin{bmatrix}&space;5.56&space;&&space;0&space;\\&space;0&space;&&space;2.01&space;\end{bmatrix}&space;\begin{bmatrix}&space;0.39&space;&&space;0.79&space;&&space;0.47&space;\\&space;-0.21&space;&&space;-0.42&space;&&space;0.88&space;\end{bmatrix}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\mathbf{M}&space;=&space;\begin{bmatrix}&space;0.61&space;&&space;0.79&space;\\&space;0.79&space;&&space;-0.61&space;\end{bmatrix}&space;\begin{bmatrix}&space;5.56&space;&&space;0&space;\\&space;0&space;&&space;2.01&space;\end{bmatrix}&space;\begin{bmatrix}&space;0.39&space;&&space;0.79&space;&&space;0.47&space;\\&space;-0.21&space;&&space;-0.42&space;&&space;0.88&space;\end{bmatrix}" title="Singular value decomposition" /></a>
+
+where all values are given to 2 decimal places, rather than giving precise expressions. Our best 1-dimensional approximation to this is then
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\begin{matrix}&space;\mathbf{M_1}&space;&&space;=&space;&&space;\begin{bmatrix}&space;0.61&space;&&space;0.79&space;\\&space;0.79&space;&&space;-0.61&space;\end{bmatrix}&space;\begin{bmatrix}&space;5.56&space;&&space;0&space;\\&space;0&space;&&space;0&space;\end{bmatrix}&space;\begin{bmatrix}&space;0.39&space;&&space;0.79&space;&&space;0.47&space;\\&space;-0.21&space;&&space;-0.42&space;&&space;0.88&space;\end{bmatrix}&space;\\&space;&&space;=&space;&&space;\begin{bmatrix}&space;1.33&space;&&space;2.67&space;&&space;1.59&space;\\&space;1.74&space;&&space;3.48&space;&&space;2.08&space;\end{bmatrix}&space;\end{matrix}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\begin{matrix}&space;\mathbf{M_1}&space;&&space;=&space;&&space;\begin{bmatrix}&space;0.61&space;&&space;0.79&space;\\&space;0.79&space;&&space;-0.61&space;\end{bmatrix}&space;\begin{bmatrix}&space;5.56&space;&&space;0&space;\\&space;0&space;&&space;0&space;\end{bmatrix}&space;\begin{bmatrix}&space;0.39&space;&&space;0.79&space;&&space;0.47&space;\\&space;-0.21&space;&&space;-0.42&space;&&space;0.88&space;\end{bmatrix}&space;\\&space;&&space;=&space;&&space;\begin{bmatrix}&space;1.33&space;&&space;2.67&space;&&space;1.59&space;\\&space;1.74&space;&&space;3.48&space;&&space;2.08&space;\end{bmatrix}&space;\end{matrix}" title="Rank 1 approximation to our initial embedding" /></a>
+
+The following diagram shows this. The white circles are the original positions of our [*documents*](Glossary.md) in our 2-dimensional vector space in which the axes are terms in our 2-word [*vocabulary*](Glossary.md). The black dots are their positions on our best rank-1 approximation to the original space. The singular value decomposition tells us the best way of fitting the white points onto a line while losing the minimum of information (technically we move the points the smallest squared distance).
+![Example SVD from rank 2 to rank 1](2dSVD2.png)
+
+We can calculate the coordinates of our new [*embedding*](Glossary.md) (the black points) as
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\begin{bmatrix}&space;5.56&space;&&space;0&space;\\&space;0&space;&&space;0&space;\end{bmatrix}&space;\begin{bmatrix}&space;0.39&space;&&space;0.79&space;&&space;0.47&space;\\&space;-0.21&space;&&space;-0.42&space;&&space;0.88&space;\end{bmatrix}&space;=&space;\begin{bmatrix}&space;2.19&space;&&space;4.39&space;&&space;2.62&space;\\&space;0&space;&&space;0&space;&&space;0&space;\end{bmatrix}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\begin{bmatrix}&space;5.56&space;&&space;0&space;\\&space;0&space;&&space;0&space;\end{bmatrix}&space;\begin{bmatrix}&space;0.39&space;&&space;0.79&space;&&space;0.47&space;\\&space;-0.21&space;&&space;-0.42&space;&&space;0.88&space;\end{bmatrix}&space;=&space;\begin{bmatrix}&space;2.19&space;&&space;4.39&space;&&space;2.62&space;\\&space;0&space;&&space;0&space;&&space;0&space;\end{bmatrix}" title="Coordinates of black points in basis of new embedding" /></a>
+
+This is somewhat absurd when our new [*embedding*](Glossary.md) has rank 1, but it shows that the black points that was at (1, 2) moves to a position 2.19 along the rank 1 subspace, the point that was at (2, 4) moves to a position 4.39 along this line, and the point that was at (3, 1) moves to a position 2.62 along this line. You can imagine that this new basis for the subspace we have created is of more use when the new [*embedding*](Glossary.md) is of (much) higher rank than 1.
+
+We could equivalently view our system as being the coordinates of terms in 3-dimensional [*document*](Glossary.md) space. In this case our svd reduces this space to an equivalent rank 1 subspace, and in this space the terms are located at
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\begin{bmatrix}&space;0.61&space;&&space;0.79&space;\\&space;0.79&space;&&space;-0.61&space;\end{bmatrix}&space;\begin{bmatrix}&space;5.56&space;&&space;0&space;\\&space;0&space;&&space;0&space;\end{bmatrix}&space;=&space;\begin{bmatrix}&space;3.38&space;&&space;0&space;\\&space;4.41&space;&&space;0&space;\end{bmatrix}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\begin{bmatrix}&space;0.61&space;&&space;0.79&space;\\&space;0.79&space;&&space;-0.61&space;\end{bmatrix}&space;\begin{bmatrix}&space;5.56&space;&&space;0&space;\\&space;0&space;&&space;0&space;\end{bmatrix}&space;=&space;\begin{bmatrix}&space;3.38&space;&&space;0&space;\\&space;4.41&space;&&space;0&space;\end{bmatrix}" title="location of new embedding subspace" /></a>
+
+Additionally, this allows us to derive an equation describing the line of which the black points in the diagram sit - it is *y* = (4.41 / 3.38) *x*.
+
+Finally, note that in terms of being an algorithm that
+* uses matrix algebra; and
+* results in the creation of a reduced-rank subspace; which
+* is somehow closest to the original space; and
+* has a basis that is a linear combination of the original basis vectors
+
+SVD is clearly similar in ethos to principal component analysis. [Obviously the two can be formally compared](https://intoli.com/blog/pca-and-svd/).
+
+## The point of all this madness
+
+Deep breath now, the hardcore (well, first year Linear Algebra course, which is hard for me) maths is done. We can now see the point of all this.
+
+First, a recap:
+* We defined an initial [*embedding*](Glossary.md) for our [*documents*](Glossary.md) based on the words that remained in the [*vocabulary*](Glossary.md) after we had done our [*feature selection*](FeatureSelection.md), and using some sort of [*weighting scheme*](Glossary.md) of our choice.
+* We did some ~~magic~~ Linear Algebra to reduce the rank of our initial embedding so that all our our [*documents*](Glossary.md) now lie on some sort of *k*-dimensional hyperplane.
+
+Why is this good? Take a look at the diagram above again. The black points lie on a line. They are the best one-dimensional approximation to our 2-dimensional original [*embedding*](Glossary.md). If we think that there is random noise in our system (e.g. there is an element of chance in what words appear in our [*document*](Glossary.md) even once their actual topical content is determined), we might say that we should approximate the system by the line on which the black points sit, so that our real data (the white points) is made up of the black points (the signal) plus some noise term.
+
+We might say that, once we take randomness out of the picture, the points that end up closer to one another are "truly" closer in information content than ones that end up far away. Reducing the dimensionality gives us a model that doesn't overfit - in particular, it doesn't take synonyms as being separate entities, but (at least hopefully) sees them as meaning similar things (because synonyms will tend to co-occur with similar terms).
+
+### The bottom line
+
+Once you've got your rank-*k* subspace, and the coordinates of your new [*embedding*](Glossary.md) on this *k*-dimensional hyperplane, you can do your similarity measure on this and do [*Search*](Search.md) and also [*clustering*](Glossary.md) to do [*Topics*](Topics.md).
+
+## Similarity measures
+
+The standard similarity measure to use when comparing [*embedded*](Glossary.md) [*documents*](Glossary.md) is [*cosine similarity*](Glossary.md). In practice everyone seems to use this.
+
+In actual fact we always (re)[*normalise*](Glossary.md) our [*embedding*](Glossary.md) so that everything is on a hypersphere: under these circumstances (I think) Euclidean distance and [*cosine similarity*](Glossary.md) are equivalent.
+
+I am slightly worried as I write this that our re[*normalisation*](Glossary.md) at this stage reduces the dimensionality of our newly-created subspace by one, and in doing means we are doing our similarity on a space that is *not* the closest rank *k*-1 subspace of our original vector space. This might be a problem, but in practice our methods appear to work ok. I'd be loathe to throw out the normalisation as it gives such speed benefits; if any linear algebra whiz wants to tell me how to find the best rank $k$ hyperspherical approximation to a given space I would love to hear it.
