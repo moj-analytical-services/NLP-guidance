@@ -16,8 +16,9 @@ The set of text *document*s that you are analysing.
 * A set of emails sent to a particular person.
 
 ### Cosine similarity
-A way of measuring similarity between *documents* after they have been *embedded* as vectors. The gist is that the similarity between any two documents $a$ and $b$ is judged by the angle $\theta$ between their vectors $\textbf{a}$ and $\textbf{b}$. To be specific, we use the cosine of this angle:
-$$\text{Similarity of }\textbf{a}\text{ and }\textbf{b} = \cos \theta$$
+A way of measuring similarity between *documents* after they have been *embedded* as vectors. The gist is that the similarity between any two documents *a* and *b* is judged by the angle _&theta;_. between their vectors **a** and **b**. To be specific, we use the cosine of this angle:
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\text{Similarity&space;of&space;}\textbf{a}\text{&space;and&space;}\textbf{b}&space;=&space;\cos&space;\theta" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\text{Similarity&space;of&space;}\textbf{a}\text{&space;and&space;}\textbf{b}&space;=&space;\cos&space;\theta" title="\text{Similarity of }\textbf{a}\text{ and }\textbf{b} = \cos \theta" /></a>
 
 The rationale for this is that the vector space into which we *embed* our *documents* is defined such that the dimensions in it approximately relate to the concepts within the *documents*. The vector for a *document* points in the directions of the concepts that *document* contains. Therefore two *documents* with similar conceptual content will have vectors that point in similar directions: the angle between their vectors will be relatively small, so the cosine of this angle will be larger than that between documents with no conceptual similarity.
 
@@ -46,11 +47,18 @@ Assigning a weight to words in the *vocabulary* to represent how much we should 
 <a align='center' href="https://www.codecogs.com/eqnedit.php?latex=\log&space;\frac{N}{n_t}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\log&space;\frac{N}{n_t}" title="\log \frac{N}{n_t}" /></a>
 
 
-weighting for a word $t$, where $N$ is the total number of *documents* in the *corpus*, and $n_t$ is the number of *documents* that contain $t$.
+weighting for a word *t*, where *N* is the total number of *documents* in the *corpus*, and *n~t~* is the number of *documents* that contain *t*.
 
 ### Normalising
-Transforming a vector so that it has unit length, by dividing the initial vector by its (Euclidean) length. If you are using *cosine similarity* to measure similarities between *document* vectors, normalising the vectors is often a good idea because, for vectors $\textbf{a}$ and $\textbf{b}$ $$ \textbf{a}.\textbf{b} = |\textbf{a}||\textbf{b}| \cos \theta, $$ where $\theta$ is the angle between $\textbf{a}$ and $\textbf{b}$. If we denote the normalised versions of $\textbf{a}$ and $\textbf{b}$ as $\textbf{a}^{\prime}$ and $\textbf{b}^{\prime}$ respectively, we have $|\textbf{a}| = |\textbf{b}| = 1$, so
-$$ \cos \theta = \textbf{a}^{\prime}.\textbf{b}^{\prime}$$ Dot products are typically much quicker to compute than cosines, and normalisation is quick, so this saves time.
+Transforming a vector so that it has unit length, by dividing the initial vector by its (Euclidean) length. If you are using *cosine similarity* to measure similarities between *document* vectors, normalising the vectors is often a good idea because, for vectors **a** and **b**
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\textbf{a}.\textbf{b}&space;=&space;|\textbf{a}||\textbf{b}|&space;\cos&space;\theta" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\textbf{a}.\textbf{b}&space;=&space;|\textbf{a}||\textbf{b}|&space;\cos&space;\theta" title="\textbf{a}.\textbf{b} = |\textbf{a}||\textbf{b}| \cos \theta" /></a>
+
+where  *\theta* is the angle between **a** and **b**. If we denote the normalised versions of **a** and **b** as **a'** and **b'** respectively, we have <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;|\textbf{a}|&space;=&space;|\textbf{b}|&space;=&space;1" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;|\textbf{a}|&space;=&space;|\textbf{b}|&space;=&space;1" title="|\textbf{a}| = |\textbf{b}| = 1" /></a>, so
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\cos&space;\theta&space;=&space;\textbf{a}^{\prime}.\textbf{b}^{\prime}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\cos&space;\theta&space;=&space;\textbf{a}^{\prime}.\textbf{b}^{\prime}" title="\cos \theta = \textbf{a}^{\prime}.\textbf{b}^{\prime}" /></a>
+
+ Dot products are typically much quicker to compute than cosines, and normalisation is quick, so this saves time.
 
 ### Stemming
 The practice of reducing words to their roots. This reduces the number of words in a vocabulary, and focusses *embedding* on the concept that the word is trying to encode, rather than the grammatical context of the word. We have generally done it using the [Porter algorithm](https://tartarus.org/martin/PorterStemmer/), which has implementations in a number of programming languages including R.

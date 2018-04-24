@@ -5,8 +5,8 @@
 * Each word in our [*vocabulary*](Glossary.md) relates to a unique dimension in our vector space. For each [*document*](Glossary.md), we go through the [*vocabulary*](Glossary.md), and assign that [*document*](Glossary.md) a score for each word. This gives the [*document*](Glossary.md) a vector [*embedding*](Glossary.md).
 * There are various schemes by which this scoring can be done. A simple example is to count the number of occurrences of each word in the [*document*](Glossary.md). We can also use [*IDF weighting*](Glossary.md) and [*normalisation*](Glossary.md).
 * We make a [*term-document matrix (TDM)*](Glossary.md) out of our [*document*](Glossary.md) vectors. The [*TDM*](Glossary.md) defines a subspace spanned by our [*documents*](Glossary.md).
-* We do a [*singular value decomposition*](https://en.wikipedia.org/wiki/Singular-value_decomposition) to find the closest rank-$k$ approximation to this subspace, where $k$ is an integer chosen by us. This rank reduction has the effect of implicitly redefining our [*document*](Glossary.md) [*embedding*](Glossary.md) so that it depends on $k$ features, which are linear combinations of the original scores for words. This output is the same as that for a [principal component analysis](https://en.wikipedia.org/wiki/Principal_component_analysis) with $k$ principal components.
-* We can then define similarity between our [*documents*](Glossary.md) using [*cosine similarity*](Glossary.md): the cosine of the angle between their vectors in the rank-$k$ subspace.
+* We do a [*singular value decomposition*](https://en.wikipedia.org/wiki/Singular-value_decomposition) to find the closest rank-*k* approximation to this subspace, where *k* is an integer chosen by us. This rank reduction has the effect of implicitly redefining our [*document*](Glossary.md) [*embedding*](Glossary.md) so that it depends on *k* features, which are linear combinations of the original scores for words. This output is the same as that for a [principal component analysis](https://en.wikipedia.org/wiki/Principal_component_analysis) with *k* principal components.
+* We can then define similarity between our [*documents*](Glossary.md) using [*cosine similarity*](Glossary.md): the cosine of the angle between their vectors in the rank-*k* subspace.
 
 ## Motivation
 
@@ -41,13 +41,13 @@ To continue our "*Green Eggs and Ham*" example, the line
 after making lower case, removing [*stopwords*](Glossary.md), and [*stemming*](Glossary.md), becomes
 >{green, egg, ham}
 
-Counting the number of occurrences of each [*vocabulary*](Glossary.md) word would give an [*embedding*](Glossary.md) $(0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0)$ (taking the dimensions in alphabetical order of the words in the [*vocabulary*](Glossary.md)). Similarly, the line
+Counting the number of occurrences of each [*vocabulary*](Glossary.md) word would give an [*embedding*](Glossary.md) <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;(0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;(0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0)" title="(0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0)" /></a> (taking the dimensions in alphabetical order of the words in the [*vocabulary*](Glossary.md)). Similarly, the line
 > Eat them! Eat them! Here they are!
 
 becomes
 > {eat, eat}
 
-and gets [*embedded*](Glossary.md) as $(0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0)$.
+and gets [*embedded*](Glossary.md) as <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;(0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;(0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0)" title="(0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0)" /></a>.
 
 ## Beyond counting
 
@@ -71,18 +71,22 @@ Notice that we consider how rare or common the word in question is within the [*
 
 At some point after applying one or both of the above schemes we can choose whether or not to [*normalise*](Glossary.md) our [*document*](Glossary.md) vector so that it has unit length.
 
-The main advantage of this step is to reduce computation time in the case where we are going to use [*cosine similarity*](Glossary.md) as our similarity measure between [*documents*](Glossary.md). If we normalise our [*document*](Glossary.md) vectors they have length one and, since the cosine rule gives $$ \frac{\mathbf{a}.\mathbf{b}}{|\mathbf{a}||\mathbf{b}|} = \cos \theta, $$ we can calculate the cosine of the angle between [*document*](Glossary.md) vectors just using the dot product. In R, at least, and I suspect in many coding languages, dot products between vectors are optimised to be very quick to calculate.
+The main advantage of this step is to reduce computation time in the case where we are going to use [*cosine similarity*](Glossary.md) as our similarity measure between [*documents*](Glossary.md). If we normalise our [*document*](Glossary.md) vectors they have length one and, since the cosine rule gives
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\frac{\mathbf{a}.\mathbf{b}}{|\mathbf{a}||\mathbf{b}|}&space;=&space;\cos&space;\theta" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;\frac{\mathbf{a}.\mathbf{b}}{|\mathbf{a}||\mathbf{b}|}&space;=&space;\cos&space;\theta" title="\frac{\mathbf{a}.\mathbf{b}}{|\mathbf{a}||\mathbf{b}|} = \cos \theta" /></a>
+
+we can calculate the cosine of the angle between [*document*](Glossary.md) vectors just using the dot product. In R, at least, and I suspect in many coding languages, dot products between vectors are optimised to be very quick to calculate.
 
 ## The subspace defined by our [*documents*](Glossary.md)
 
 So now we've embedded our [*documents*](Glossary.md) in our vector space. We can go further and define the subspace spanned by our documents by taking each of the [*document*](Glossary.md) vectors. We do this by defining a [*term-document matrix* (*TDM*)](Glossary.md): the row vectors of this matrix are our [*document*](Glossary.md) vectors, and the columns represent the words in the [*vocabulary*](Glossary.md).
 
-The rank $r$ of this matrix (equivalently the rank of the subspace spanned by our [*corpus*](Glossary.md)) will be bounded above by whichever is the smaller out of the size of the [*vocabulary*](Glossary.md) and the number of [*documents*](Glossary.md). This value $r$ can be thought of as the number of parameters we would need to be able to fully describe any of our [*documents*](Glossary.md) (under this [*weighting scheme*](Glossary.md)).
+The rank *r* of this matrix (equivalently the rank of the subspace spanned by our [*corpus*](Glossary.md)) will be bounded above by whichever is the smaller out of the size of the [*vocabulary*](Glossary.md) and the number of [*documents*](Glossary.md). This value *r* can be thought of as the number of parameters we would need to be able to fully describe any of our [*documents*](Glossary.md) (under this [*weighting scheme*](Glossary.md)).
 
-What if we think that we could describe our [*documents*](Glossary.md) with fewer parameters than this? What if we think that there are really $k$ "hidden" parameters that can sufficiently describe any of our [*documents*](Glossary.md)?
+What if we think that we could describe our [*documents*](Glossary.md) with fewer parameters than this? What if we think that there are really *k* "hidden" parameters that can sufficiently describe any of our [*documents*](Glossary.md)?
 
-Amazingly, thanks to the wonders of linear algebra, we can use our [*term-document matrix*](Glossary.md), representing the rank-$r$ description of our documents due to our original [*weighting scheme*](Glossary.md), to generate the unique rank-$k$ description of our documents that is "closest" to the original description (closest in the sense of "least-squares"). That is, we can automatically generate an [*embedding*](Glossary.md) of our [*documents*](Glossary.md) that
-* is of rank $k$; and
+Amazingly, thanks to the wonders of linear algebra, we can use our [*term-document matrix*](Glossary.md), representing the rank-*r* description of our documents due to our original [*weighting scheme*](Glossary.md), to generate the unique rank-*k* description of our documents that is "closest" to the original description (closest in the sense of "least-squares"). That is, we can automatically generate an [*embedding*](Glossary.md) of our [*documents*](Glossary.md) that
+* is of rank *k*; and
 * 'throws away' the least information from our original [*embedding*](Glossary.md), in some sense.
 
 
