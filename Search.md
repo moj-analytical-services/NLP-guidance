@@ -2,8 +2,9 @@
 
 ## TL;DR
 
-* People want to search through a big [*corpus*](Glossary.md) to find the [*documents*](Glossary.md) most relevant to their interests
-* If we [*embed*](Glossary.md) our [*documents*](Glossary.md) into a vector space we can use the metric of our choice to determine similarity between [*documents*](Glossary.md) and any given search phrase (which we also [*embed*](Glossary.md)).
+* People want to search through a big [*corpus*](Glossary.md) to find the [*documents*](Glossary.md) most relevant to their interests.
+* If we [*embed*](Glossary.md) our [*documents*](Glossary.md) into a vector space we can then choose a metric or similarity measure of our choice (often [*cosine similarity*](Glossary.md)) to get similarity scores between [*documents*](Glossary.md) and any search phrase (which we also [*embed*](Glossary.md)).
+* With these similarity scores we can return the *N* most similar [*documents*](Glossary.md), or those above a certain level of similarity, or list [*documents*](Glossary.md) in similarity order.
 * Choosing a methodology for [*embedding*](Glossary.md) is non-trivial; there is no one-size-fits-all best practice and a frustrating (for me, at least) lack of information theoretic rigour about what constitutes a good or sensible choice.
 * The choice of [*embedding*](Glossary.md) methodology will be influenced by what your users will be interested in. You will need to do some [feature selection (click to read about that)](FeatureSelection.md).
 * Following [feature selection](FeatureSelection.md), some methodologies we've had success with are [Latent Semantic Analysis](LSA.md) and [Neural Network models like Word2Vec and Doc2Vec](NNmodels.md).
@@ -46,3 +47,36 @@ So all we've done is restated the problem above about being able to rigorously d
 Because of this philosophical difficulty, there is not a single true way of [*embedding*](Glossary.md) [*documents*](Glossary.md) in a vector space, any more than there is a single true definition of what a [*document*](Glossary.md) means relative to other [*documents*](Glossary.md). Instead, the method you should use will depend on what you want to capture about each [*document*](Glossary.md). [This is called feature selection, and you can read about it here](FeatureSelection.md). Additionally, your choice will no doubt depend upon your own technological preferences, constraints, and biases.
 
 Some models that we've used are [Latent Semantic Analysis](LSA.md), and [Neural Network models like Word2Vec and Doc2Vec](NNmodels.md) (click to read about them). In all of our use cases, a surprising amount of value can suddenly be added to the model following small changes to [feature selection](FeatureSelection.md) or to model parameters. This is not reassuring from a Quality Assurance perspective.
+
+## [*Embedding*](Glossary.md) our search phrase
+
+Assume we have [*embedded*](Glossary.md) our [*documents*](Glossary.md) into a vector space in a way that we're happy with. Assume further that we can give a similarity score between any two points in our vector space (e.g. using a metric, or a similarity measure such as [*cosine similarity*](Glossary.md)).
+
+Now all we need to do is [*embed*](Glossary.md) our search phrase into our vector space, and we can then determine a similarity score between this search phrase vector and any of the [*documents*](Glossary.md) in our [*corpus*](Glossary.md). This means that we can do things such as:
+* list [*documents*](Glossary.md) in similarity order;
+* return the top *N* most similar [*documents*](Glossary.md) for suitable choice of *N*; and
+* return all [*documents*](Glossary.md) whose similarity to the search phrase is above some threshold.
+
+Which of these things is most appropriate depends upon what the users want.
+
+So we need to work out how we're [*embedding*](Glossary.md) our search phrase. This has to be done in a way that is directly comparable to the way in which we previously [*embedded*](Glossary.md) our [*corpus*](Glossary.md). In particular, we usually want to do [*feature selection*](FeatureSelection.md) on our search phrase first of all, and to do this in a way directly analogous to what we did for the [*documents*](Glossary.md).
+
+Following [*feature selection*](FeatureSelection.md) we can [*embed*](Glossary.md) the search phrase. Both methods of [*embedding*](Glossary.md) our [*corpus*](Glossary.md) discussed here give us an encoding of particular [*words*](Glossary.md) in our [*vocabulary*](Glossary.md). Typically all we need to do to [*embed*](Glossary.md) our search phrase is to use these word encodings. Notice that this means that users can only search using words from our [*vocabulary*](Glossary.md).
+
+## Specific search similarity scores
+
+### Latent semantic analysis
+
+With [*latent semantic analysis*](LSA.md) we have a vector space that is defined as having axes equivalent to terms in our [*vocabulary*](Glossary.md). Since we have an [*embedding*](Glossary.md) for our [*documents*](Glossary.md) in terms of these axes, and since we are using the dot product to get our [*cosine similarity*](Glossary.md), we can get a similarity score between a given [*document*](Glossary.md) and any given search phrase by simply
+* recording which of our [*vocabulary*](Glossary.md) words are in the search phrase; and
+* adding up the relevant values that our [*document*](Glossary.md) vector has for these words.
+
+Notice that we are implicitly assuming here that all of the words in the search phrase are of equal value. We could instead use the [*IDF*](Glossary.md) weighting derived from the [*corpus*](Glossary.md) to assign more weighting to some of the terms in the search. 
+
+### Word2Vec
+
+The Word2Vec [*embedding*](Glossary.md) gives us vectors for each word. We can then [*embed*](Glossary.md) our search phrase by using an average of the word vectors within the phrase. Again, this average can possibly be weighted by the [*IDF*](Glossary.md) weighting derived from the [*corpus*](Glossary.md) to assign more weighting to some of the terms in the search (we have done this in the Prison Scrutiny Search Tool).
+
+Once the [*embedding*](Glossary.md) of the search phrase has been done, we can then normalise the resulting vector. The similarity score with our [*document*](Glossary.md) vector is then the dot product between it and the search phrase vector.
+
+Note that Doc2Vec can also be induced to give word vectors, and so the same methodology can be used, although in this instance the [*document*](Glossary.md) vectors will not be similarly-constructed weighted averages of the words within the [*documents*](Glossary.md), but rather something else.
