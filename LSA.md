@@ -7,7 +7,7 @@
 * We make a [*term-document matrix (TDM)*](Glossary.md) out of our [*document*](Glossary.md) vectors. The [*TDM*](Glossary.md) defines a subspace spanned by our [*documents*](Glossary.md).
 * We do a [*singular value decomposition*](https://en.wikipedia.org/wiki/Singular-value_decomposition) to find the closest rank-*k* approximation to this subspace, where *k* is an integer chosen by us. This rank reduction has the effect of implicitly redefining our [*document*](Glossary.md) [*embedding*](Glossary.md) so that it depends on *k* features, which are linear combinations of the original scores for words. This is conceptually broadly similar to [principal component analysis](https://en.wikipedia.org/wiki/Principal_component_analysis) with *k* principal components (for the exact relationship, [see e.g. here](https://intoli.com/blog/pca-and-svd/)).
 * We can then define similarity between our [*documents*](Glossary.md) using [*cosine similarity*](Glossary.md): the cosine of the angle between their vectors in the rank-*k* subspace.
-* To choose *k* we have so far relied on good old trial and error. Although there are doubtless statistical measures for how "good" a value of *k* is (along the lines of plotting some loss of data and looking for an elbow in the plot), we have instead focussed on investigating what happens in the actual tool.
+* To choose *k* we have so far relied on good old trial and error. Although there are doubtless statistical measures for how "good" a value of *k* is (along the lines of plotting some loss of information and looking for an elbow in the plot), we have instead focussed on investigating what happens in the actual tool.
 
 ## Motivation
 

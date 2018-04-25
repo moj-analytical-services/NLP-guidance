@@ -6,6 +6,12 @@ An approach to *embedding* in which the order of words in a *document* is not co
 * To a bag of words model, "leave your stuff with the civil servants”, “the civil servants leave with your stuff", and “stuff the civil servants, with your leave” are all seen as the same set {civil, leave, servants, stuff, the, with, your}, and thus all have the same meaning.
 * An Artifical Intelligence using a bag of words model would not get any enjoyment from the Wendy Cope poem ["*The Uncertainty of the Poet*"](http://frombooksofpoems.blogspot.co.uk/2007/03/uncertainty-of-poet-by-wendy-cope.html).
 
+### Clustering
+A catch-all term for a group of algorithms that aim to collect *documents* into clusters. The idea is that the documents within each cluster have something in common, and in particular that they have more in common with each other than with documents from outside the cluster.
+
+Clustering algorithms typically require some measure of distance (or, to some extent equivalently, similarity) between *documents* in a vector space. There are a lot of different algorithms that can be used, all with pros and cons depending on the situation.
+
+
 ### Corpus
 The set of text *document*s that you are analysing.
 ##### Examples
@@ -74,9 +80,16 @@ Words routinely removed from *document*s at an early stage of the analysis.
 * They can also be from a bespoke project-specific list (e.g. the phrase *Secretary of State* in the case of Parliamentary Questions).
 
 ### Term-document matrix (TDM)
-A matrix, the rows of which are the vectors representing our *documents*, and the columns the words in our *vocabulary*. Used in [*Latent Semantic Analysis*](LSA.md). Defines a subspace of our initial vector space, the rank of which is the smaller out of the number of documents and the size of the vocabulary.
+A matrix, the columns of which are the vectors representing our *documents*, and the rows the words in our *vocabulary*. Used in [*Latent Semantic Analysis*](LSA.md). Defines a subspace of our initial vector space, the rank of which is the smaller out of the number of documents and the size of the vocabulary.
 
-Sometimes algorithms require a Document-Term Matrix (DTM) instead of a TDM; this is just the transpose of the TDM. 
+Sometimes algorithms require a Document-Term Matrix (DTM) instead of a TDM; this is just the transpose of the TDM.
+
+Beware that the terminology for these objects can be confused; for example, in R the package `lsa` contains the key function `lsa()` which will do the singular value decomposition that you want (see [LSA page for details](LSA.md)). This function claims that its input must be
+> ...a document-term matrix ... containing *documents in colums, terms in rows*...
+
+(emphasis mine). However, the `TermDocumentMatrix()` function from the `tm` package, [along with Wikipedia](https://en.wikipedia.org/wiki/Document-term_matrix), agrees with our definition above.
+
+The semantics aren't important, but care needs to be taken because when you do a singular value decomposition as part of LSA, you need to know which of the three matrices created corresponds to terms, and which to *documents*.
 
 ### Vocabulary
 The set of all words used in the *corpus*, after *stopwords* have been removed and *stemming* has been done (where appropriate).
