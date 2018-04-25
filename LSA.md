@@ -7,6 +7,7 @@
 * We make a [*term-document matrix (TDM)*](Glossary.md) out of our [*document*](Glossary.md) vectors. The [*TDM*](Glossary.md) defines a subspace spanned by our [*documents*](Glossary.md).
 * We do a [*singular value decomposition*](https://en.wikipedia.org/wiki/Singular-value_decomposition) to find the closest rank-*k* approximation to this subspace, where *k* is an integer chosen by us. This rank reduction has the effect of implicitly redefining our [*document*](Glossary.md) [*embedding*](Glossary.md) so that it depends on *k* features, which are linear combinations of the original scores for words. This is conceptually broadly similar to [principal component analysis](https://en.wikipedia.org/wiki/Principal_component_analysis) with *k* principal components (for the exact relationship, [see e.g. here](https://intoli.com/blog/pca-and-svd/)).
 * We can then define similarity between our [*documents*](Glossary.md) using [*cosine similarity*](Glossary.md): the cosine of the angle between their vectors in the rank-*k* subspace.
+* To choose *k* we have so far relied on good old trial and error. Although there are doubtless statistical measures for how "good" a value of *k* is (along the lines of plotting some loss of data and looking for an elbow in the plot), we have instead focussed on investigating what happens in the actual tool.
 
 ## Motivation
 
@@ -155,6 +156,14 @@ We might say that, once we take randomness out of the picture, the points that e
 ### The bottom line
 
 Once you've got your rank-*k* subspace, and the coordinates of your new [*embedding*](Glossary.md) on this *k*-dimensional hyperplane, you can do your similarity measure on this and do [*Search*](Search.md) and also [*clustering*](Glossary.md) to do [*Topics*](Topics.md).
+
+## But wait: how do we choose *k*?
+
+Choosing the value of *k* is not necessarily simple. If you pick *k* too large then you risk paying too much attention to outliers like rare words; this is conceptually similar to overfitting. If you pick *k* too small then you risk throwing away too much information.
+
+There are doubtless statistical measures one can choose to see how well a rank-*k* approximation fits the original rank-*r* subspace for each choice of *k*, and then looking for a tell-tale elbow in a plot of this, or something. However, these optimisation techniques assume we're trying to strike a balance between computational efficiency (lowering *k*) and fidelity to the original space (raising *k*). But we're also concerned that the original space contains noise, and in some sense we're looking for a 'best fit' to some latent 'true' distribution for the documents.
+
+Consequently we have so far used trial and error to determine *k* and not worried too much about needing to be incredibly precise. The important thing is to find a value of *k* that gives the end user something that seems meaningful and useful.
 
 ## Similarity measures
 
