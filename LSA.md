@@ -162,4 +162,18 @@ The standard similarity measure to use when comparing [*embedded*](Glossary.md) 
 
 In actual fact we always (re)[*normalise*](Glossary.md) our [*embedding*](Glossary.md) so that everything is on a hypersphere: under these circumstances (I think) Euclidean distance and [*cosine similarity*](Glossary.md) are equivalent.
 
-I am slightly worried as I write this that our re[*normalisation*](Glossary.md) at this stage reduces the dimensionality of our newly-created subspace by one, and in doing means we are doing our similarity on a space that is *not* the closest rank *k*-1 subspace of our original vector space. This might be a problem, but in practice our methods appear to work ok. I'd be loathe to throw out the normalisation as it gives such speed benefits; if any linear algebra whiz wants to tell me how to find the best rank *k* hyperspherical approximation to a given space I would love to hear it.
+## Final note: potential problems
+
+Writing this has allowed me to think about our process in more detail, and I am aware that there are potentially some issues with it. In practice it works fine in the Parliamentary Analysis Tool, so I'm not too worried. But if anyone knows the answers to the following questions we might be able to do better (or at least set things on a firmer mathematical grounding).
+
+The process we follow goes
+1. [*Embed*](Glossary.md) our [*documents*](Glossary.md) in a vector space of degree *N*, where *N* is the size of our [*vocabulary*](Glossary.md). The initial [*embedding*](Glossary.md) will be of rank *r* where *r* _&le;_ *N*: this means that within our *N*-dimensional vector space, our [*documents*](Glossary.md) sit on a hyperplane of dimension *r*.
+2. [*Normalise*](Glossary.md) our [*document*](Glossary.md) vectors so that they all have unit length. Following this step, the documents sit on a hypersphere of dimension (*r* - 1) within our *N*-dimensional vector space. Although we must have thrown away information here, we have conserved the angle between [*document*](Glossary.md) vectors, so we don't mind.
+3. Reduce the rank of our [*embedding*](Glossary.md) to rank *k* by using SVD, where we choose some *k* _&le;_ *r* - 1. Following this step our [*documents*](Glossary.md) sit on a *k*-dimensional hyperplane. Their new positions are determined so as to move them as little as possible from their previous positions on the (*r* - 1)-sphere. To be precise the total squared distance that they all move is minimised. However, notice that we have not minimised changes in the angles between them, which is what we're actually interested in.
+4. [*Normalise*](Glossary.md) again, so that our [*documents*](Glossary.md) now sit on a (*k* - 1)-dimensional  hypersphere. Again, this [*normalisation*](Glossary.md) conserves the angles between the [*documents*](Glossary.md).
+
+The problem is that we are playing fast and loose with what we are trying to conserve or minimise. In steps 2 and 4 we are happy to [*normalise*](Glossary.md) because we are concerned with angles between vectors, and not Euclidean distances. But at step 3 we use a low-rank approximation that minimises the (total squared) Euclidean distance between the new points and the original points. This is at best inconsistent.
+
+As I say, in practice it seems like the results are still fine, but if anyone knows how to produce a low-rank approximation that minimises changes to angles between points, and can implement it in R, I would be a lot happier.
+
+It might be equivalent (or perhaps: better) to be able to find the optimal *k*-dimensional hyperspherical approximation to data which sits on an *r*-dimensional hypersphere. [These people have done this, but I haven't looked at implementing it in R](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.70.5407&rep=rep1&type=pdf). Their first definition of 'optimal', the 'Fidelity test' seems like it would be appropriate in our case.
