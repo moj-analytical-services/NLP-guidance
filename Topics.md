@@ -26,20 +26,8 @@ The reason that having topical tags already assigned to your [*corpus*](Glossary
 
 Unfortunately, we have not experienced this happy state of affairs (which might be why we think it's a happy state of affairs - the grass is always greener). Instead, we have so far been restricted to the situation where our [*documents*](Glossary.md) are unclassified, and we have to determine the topics all by ourselves. This leaves us in the world of unsupervised machine learning, and particularly trying either Latent Dirichlet Allocation (LDA) or using [*clustering*](Glossary.md) algorithms.
 
-## Latent Dirichlet Allocation (LDA)
+## [Latent Dirichlet Allocation (LDA)](LDA.md)
 
-In common with some of the [*clustering*](Glossary.md) algorithms below, for this method we need to define the number *k* of topics in our [*corpus*](Glossary.md).
-
-LDA is a probabilistic method. For each [*document*](Glossary.md) the results give us a mix of topics that make up that [*document*](Glossary.md). To be precise, we get a probability distribution over the *k* topics for each [*document*](Glossary.md). Each word in the [*document*](Glossary.md) is attributed to a particular topic with probability given by this distribution.
-
-Topics themselves are defined as probability distributions over the [*vocabulary*](Glossary.md). So our results are two sets of probability distributions:
-* The set of distributions of topics for each [*document*](Glossary.md)
-* The set of distributions of words for each topic.
-
-The following diagram shows how this might work for three topics and 16 words in the [*vocabulary*](Glossary.md). The results for a particular [*document*](Glossary.md) are the first graph, showing the mix of topics within it. Each topic is itself a probability distribution over words in the [*vocabulary*](Glossary.md).
-
-![Example SVD from rank 2 to rank 1](LDAresults.png)
-
-The model is Bayesian, and doesn't admit zero probabilities either for the topic distributions or for the word distributions. This means that in every [*document*](Glossary.md) each topic has a non-zero probability, and in every topic each word in the [*vocabulary*](Glossary.md) has a non-zero probability. However, these probabilities can be vanishingly small. Indeed, the model is set up so as to try and encourage most of the probabilities to be very close to zero: we want results that suggest each [*document*](Glossary.md) is made up a small number of topics, and each topic is primarily composed of a small number of main words.
+[There is a full page on LDA, and our problems trying to implement it, here.](LDA.md) Suffice it to say that we haven't got it to work satisfactorily.
 
 
