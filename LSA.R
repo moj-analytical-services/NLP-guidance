@@ -1,6 +1,6 @@
+library(tibble)
 library(tm)
 library(slam)
-library(tibble)
 
 #Helper functions
 
@@ -26,7 +26,7 @@ sim_scores <- function(search_text, posns){
   search_words <- search_text %>% tolower() %>%
     strsplit(search_text, split = " ") %>%
     unlist()
-  search_words <- search_words[which(search_words %in% dimnames(posns_10)$Terms)]
+  search_words <- search_words[which(search_words %in% dimnames(posns)$Terms)]
   results <- colSums(posns[search_words,])
   return(results)
 }
@@ -39,9 +39,9 @@ TDM <- word_counts %>% cast_tdm(word, ID, n) %>%
 
 SVD <- svd(TDM)
 
-#Let's say we want to find a rank-20 approximation
+#Let's say we want to find a rank-100 approximation to our rank-450 space
 
-k <- 20
+k <- 100
 
 new_posns <- posns_k(TDM, k)
 
@@ -54,3 +54,4 @@ full_sentences <- sentences %>%
   filter(ID %in% some_scores$ID) %>%
   join(some_scores) %>%
   arrange(desc(sim_score))
+

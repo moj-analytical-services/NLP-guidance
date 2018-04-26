@@ -3,6 +3,8 @@
 #analysis too
 
 library(plyr)
+library(tibble)
+library(Rcpp)
 library(tidytext)
 library(dplyr)
 library(stringr)
