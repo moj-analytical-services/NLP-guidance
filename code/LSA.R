@@ -1,4 +1,4 @@
-library(tibble)
+source("./data_preparation.R")
 library(tm)
 library(slam)
 

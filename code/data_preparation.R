@@ -10,13 +10,14 @@ library(dplyr)
 library(stringr)
 library(SnowballC)
 
-md_files <- list.files(pattern = ".md") #get names of .md files
+md_files <- list.files(path = "../", pattern = ".md") %>% #get names of .md files
+  sapply(function(x) paste0("../", x))
 
 sentences <- sapply(md_files, function(x) readLines(x)) %>% #read files
   ldply(cbind) %>% #turn files into data frame
   select(file = 1, text = 2) %>% #rename columns
   filter(text != "") %>% #remove blank lines
-  filter(! str_detect(text, "#")) %>% #remove lines that are actually just section headers
+  filter(!str_detect(text, "#")) %>% #remove lines that are actually just section headers
   group_by(file) %>%
   mutate(fulltext = paste0(text, collapse = " ")) %>% #group each file's text as a big string
   ungroup() %>%
