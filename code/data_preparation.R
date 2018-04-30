@@ -32,13 +32,20 @@ sentences <- sapply(md_files, function(x) readLines(x)) %>% #read files
 
 data("stop_words")
 
-text <- sentences %>%
+clean_text <- sentences %>%
   unnest_tokens(word, sentence, token = "words", to_lower = TRUE) %>% #break apart by words
   filter(word != "glossary.md") %>% #remove glossary hyperlinks
   anti_join(stop_words %>% filter(lexicon == "SMART")) %>% #remove stopwords
   mutate(word = wordStem(word)) #stem
 
-word_counts <- text %>% count(ID, word) #count occurrences of each word in the vocab per document
+clean_word_counts <- clean_text %>% count(ID, word) #count occurrences of each word in the vocab per document
+
+full_text <- sentences %>%
+  unnest_tokens(word, sentence, token = "words", to_lower = TRUE) %>% #break apart by words
+  filter(word != "glossary.md") %>% #remove glossary hyperlinks
+  anti_join(stop_words %>% filter(lexicon == "SMART")) #remove stopwords
+
+full_word_counts <- full_text %>% count(ID, word) #count occurrences of each word in the vocab per document
 
 
 

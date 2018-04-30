@@ -54,7 +54,7 @@ n_most_similar <- function(search_text, posns, n = 10, sentence_collection = sen
   return(results)
 }
 
-TDM <- word_counts %>% cast_tdm(word, ID, n) %>%
+TDM <- clean_word_counts %>% cast_tdm(word, ID, n) %>%
   weightSMART(spec = "btn") %>%
   as.matrix() %>%
   normalize() %>%
@@ -69,3 +69,4 @@ k <- 100
 new_posns <- posns_k(TDM, k)
 
 search_results <- n_most_similar("this is how we can search through our documents", new_posns)
+
