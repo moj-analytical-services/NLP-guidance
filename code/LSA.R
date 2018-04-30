@@ -27,7 +27,30 @@ sim_scores <- function(search_text, posns){
     strsplit(search_text, split = " ") %>%
     unlist()
   search_words <- search_words[which(search_words %in% dimnames(posns)$Terms)]
-  results <- colSums(posns[search_words,])
+  print(length(search_words))
+  if(length(search_words) > 1){
+    results <- colSums(posns[search_words,])
+    names(results) <- dimnames(posns)$Docs
+  } else if(length(search_words) == 1) {
+    results <- posns[search_words,] %>% as.vector()
+    names(results) <- dimnames(posns)$Docs
+  } else {
+    print("No applicable terms in search, please try again")
+    results <- NULL
+  }
+  return(results)
+}
+
+n_most_similar <- function(search_text, posns, n = 10, sentence_collection = sentences){
+  scores <- sort(sim_scores(search_text, posns), decreasing = TRUE)
+  scores <- scores[1:n] %>%
+    as_tibble(rownames = NA) %>%
+    rownames_to_column(var = "ID") %>%
+    rename(sim_score = value)
+   results <- sentence_collection %>%
+     filter(ID %in% scores$ID) %>%
+     join(scores) %>%
+     arrange(desc(sim_score))
   return(results)
 }
 
@@ -45,13 +68,4 @@ k <- 100
 
 new_posns <- posns_k(TDM, k)
 
-some_scores <- sort(sim_scores("latent dirichlet allocation has problems", new_posns), decreasing = TRUE)[1:10] %>%
-  as_tibble(rownames = NA) %>%
-  rownames_to_column(var = "ID") %>%
-  rename(sim_score = value)
-
-full_sentences <- sentences %>%
-  filter(ID %in% some_scores$ID) %>%
-  join(some_scores) %>%
-  arrange(desc(sim_score))
-
+search_results <- n_most_similar("this is how we can search through our documents", new_posns)

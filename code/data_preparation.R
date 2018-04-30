@@ -23,7 +23,7 @@ sentences <- sapply(md_files, function(x) readLines(x)) %>% #read files
   ungroup() %>%
   select(file, fulltext) %>% #keep just file name and text
   unique() %>%
-  unnest_tokens(sentence, fulltext, token = "sentences") %>% #break reports by sentence
+  unnest_tokens(sentence, fulltext, token = "sentences", to_lower = FALSE) %>% #break reports by sentence
   group_by(file) %>%
   mutate(sentence_ID = row_number()) %>% #tag sentences with IDs
   ungroup() %>%
@@ -33,7 +33,7 @@ sentences <- sapply(md_files, function(x) readLines(x)) %>% #read files
 data("stop_words")
 
 text <- sentences %>%
-  unnest_tokens(word, sentence, token = "words") %>% #break apart by words
+  unnest_tokens(word, sentence, token = "words", to_lower = TRUE) %>% #break apart by words
   filter(word != "glossary.md") %>% #remove glossary hyperlinks
   anti_join(stop_words %>% filter(lexicon == "SMART")) %>% #remove stopwords
   mutate(word = wordStem(word)) #stem
