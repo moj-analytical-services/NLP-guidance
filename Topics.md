@@ -24,10 +24,32 @@ If you are lucky, you will have a large [*corpus*](Glossary.md) of texts, the to
 
 The reason that having topical tags already assigned to your [*corpus*](Glossary.md) is fortunate is that it enables you to use supervised machine learning techniques such as naive Bayes, to classify future [*documents*](Glossary.md) in a way comparable to those in the existing data set. It also means that questions about the number, size, and definition of topics are already answered.
 
-Unfortunately, we have not experienced this happy state of affairs (which might be why we think it's a happy state of affairs - the grass is always greener). Instead, we have so far been restricted to the situation where our [*documents*](Glossary.md) are unclassified, and we have to determine the topics all by ourselves. This leaves us in the world of unsupervised machine learning, and particularly trying either Latent Dirichlet Allocation (LDA) or using [*clustering*](Glossary.md) algorithms.
+Unfortunately, we have not experienced this happy state of affairs (which might be why we think it's a happy state of affairs - the grass is always greener). Instead, we have so far been restricted to the situation where our [*documents*](Glossary.md) are unclassified, and we have to determine the topics all by ourselves. This leaves us in the world of unsupervised machine learning, and particularly trying either [*Latent Dirichlet Allocation (LDA)*](LDA.md) or using [*clustering*](Glossary.md) algorithms.
 
 ## [Latent Dirichlet Allocation (LDA)](LDA.md)
 
 [There is a full page on LDA, and our problems trying to implement it, here.](LDA.md) Suffice it to say that we haven't got it to work satisfactorily.
 
+## [*Clustering*](Glossary.md)
 
+The work we have done on [*Search*](Search.md) relies entirely on the ability to [*embed*](Glossary.md) our [*documents*](Glossary.md) in a vector space. If we can do this, we can use our distance metric (or similarity measure) and do some [*clustering*](Glossary.md) techniques to group together [*documents*](Glossary.md) that are 'close' together in the vector space, and therefore hopefully about similar subjects.
+
+There are many different methods for [*clustering*](Glossary.md), and I'm not going to go through them here. Suffice it to say that you should try several and compare them for speed of computation and how sensible the results appear to be.
+
+Further complicating the issue is that most techniques require you to set some parameter(s), whether that be explicitly number of clusters, or some related measure such as density of points for something to count as a cluster or whatever. This brings up a lot of questions: how do we know that a clustering is the "right" one, or even a "good" one?
+
+For most clustering methodologies there are statistical measures to determine the validity of your parameters choices. For example, for k-means you can look at the [silhouette](https://en.wikipedia.org/wiki/Silhouette_(clustering)) of a clustering as a measure of quality. However, we have found that these measures are lacking: they give a technical idea for the number of clusters, but can often result in lots of tight clusters (often including singleton clusters) when frequently the user wants wider, looser collections. There is no substitute for you (or the user) looking at the clusters and deciding whether or not they are useful.
+
+
+
+## Potential issues
+
+Using an unsupervised machine learning technique for obtaining topics means that there is inevitably an element of black box to proceedings. This air of mystery can have the unwanted side effect that for some topics it can be
+* hard to see why the machine has grouped them together, or
+* easy to see that the machine has grouped them together because of something we think of as trivial.
+
+The first point is arguably the harder to deal with - if you're not sure why some [*documents*](Glossary.md) have been grouped, it's hard to know how to make changes to your [feature selection](FeatureSelection.md) or [*embedding*](Glossary.md) in order to ungroup them. It can also make it hard to convince the users that the topical clusters you have produced have any semantic meaning. In the worst case, you can see a definition of a topic (in terms of a list of words or of [*documents*](Glossary.md)) but you can't articulate what it is about. If this happens too much, your topical discovery is essentially useless to the user. I have found this to be a constant problem when trying [LDA](LDA.md).
+
+The second point can sometimes be fixed by changing [feature selection](FeatureSelection.md) or [*embedding*](Glossary.md) schemes. For example, with Parliamentary Questions, there was a cluster forming around questions containing the relatively rare word "*steps*", because there are some questions asking the Secretary of State "*what steps* [he/she] *will take*" to solve some issue or other. We want to focus on the issue, rather than this piece of parliamentary fluff language. Finding this cluster allowed us to add the word "*steps*" to our [*stopword*](Glossary.md) list which led to those questions being correctly categorised with others about the same topics.
+
+In all cases, time spent looking at your topics/[*clusters*](Glossary.md) is usually well spent, as it gives you a feel for what your complex bit of algorithmic machinery is actually doing.

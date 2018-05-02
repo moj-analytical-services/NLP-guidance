@@ -57,6 +57,8 @@ While attempting this approach on consultations, we found that consultation resp
 
 Since LDA results are probabilistic, we wouldn't necessarily expect identically-worded documents to have the exact same topical distributions. But for the distributions to be completley different seems to me to render the results meaningless: if the topics purport to summarise the themes within the [*corpus*](Glossary.md), and if identical [*documents*](Glossary.md) are being suggested to have completely different topics within them, then the credibility of the topics is irreparably damaged in my opinion.
 
+It should be added that since writing this I have written a toy bit of code on LDA for this repo (found in the `code` folder) and have not managed to replicate this problem. So maybe it was just the package that we and DfT were using, or maybe it's a problem that only crops up when you have a sufficiently large data set. The next problem is still present, however.
+
 
 ### Problem 2: the results are not explicable
 
