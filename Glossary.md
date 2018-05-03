@@ -31,7 +31,7 @@ The rationale for this is that the vector space into which we *embed* our *docum
 Note that cosine similarity is a [similarity measure](https://en.wikipedia.org/wiki/Similarity_measure) rather than a [metric](https://en.wikipedia.org/wiki/Metric_(mathematics)).
 
 
-### Document
+### Document <a name="document"></a>
 A text object, the collection of which make up your *corpus*. If you are doing work on *Search* or *Topics*, the *document*s will be the objects which you will be finding similarities between in order to group them topically. The length and definition of a *document* will depend on the question you are answering.
 ##### Examples
 * A written parliamentary question.
