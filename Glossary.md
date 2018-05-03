@@ -1,6 +1,6 @@
 # Glossary
 
-### Bag of words <a name="bow"></a>
+### <a name="bow"></a> Bag of words
 An approach to *embedding* in which the order of words in a *document* is not considered, just the presence or absence (or sometimes quantity) of terms.
 ##### Examples
 * To a bag of words model, "leave your stuff with the civil servants”, “the civil servants leave with your stuff", and “stuff the civil servants, with your leave” are all seen as the same set {civil, leave, servants, stuff, the, with, your}, and thus all have the same meaning.
@@ -12,7 +12,7 @@ A catch-all term for a group of algorithms that aim to collect *documents* into 
 Clustering algorithms typically require some measure of distance (or, to some extent equivalently, similarity) between *documents* in a vector space. There are a lot of different algorithms that can be used, all with pros and cons depending on the situation.
 
 
-### Corpus <a name="corpus"></a>
+### <a name="corpus"></a> Corpus
 The set of text *document*s that you are analysing.
 ##### Examples
 * The set of written parliamentary questions that the Ministry of Justice has answered since a give date.
