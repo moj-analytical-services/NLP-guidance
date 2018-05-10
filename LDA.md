@@ -76,3 +76,8 @@ We could try to instead get a good description of our Topic by looking at [*docu
 ## Conclusion
 
 If we can't comprehensibly explain what our topics are about, and we can't trust the assignment of topics to [*documents*](Glossary.md#document), it's hard to see a use case for LDA.
+
+
+___
+
+[Back to contents](README.md)

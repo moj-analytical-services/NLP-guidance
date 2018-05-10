@@ -53,3 +53,8 @@ The first point is arguably the harder to deal with - if you're not sure why som
 The second point can sometimes be fixed by changing [feature selection](FeatureSelection.md) or [*embedding*](Glossary.md#embedding) schemes. For example, with Parliamentary Questions, there was a [*cluster*](Glossary.md#cluster) forming around questions containing the relatively rare word "*steps*", because there are some questions asking the Secretary of State "*what steps* [he/she] *will take*" to solve some issue or other. We want to focus on the issue, rather than this piece of parliamentary fluff language. Finding this [*cluster*](Glossary.md#cluster) allowed us to add the word "*steps*" to our [*stopword*](Glossary.md#stopwords) list which led to those questions being correctly categorised with others about the same topics.
 
 In all cases, time spent looking at your topics/[*clusters*](Glossary.md#cluster) is usually well spent, as it gives you a feel for what your complex bit of algorithmic machinery is actually doing.
+
+
+___
+
+[Back to contents](README.md)

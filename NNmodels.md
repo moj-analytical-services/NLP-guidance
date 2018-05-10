@@ -152,3 +152,8 @@ Unfortunately in practice we haven't yet trained a model on a sufficiently large
 Our final test is also the least sophisticated: have a look at the results. This means both look at what comes out as 'most similar' words to a given word of interest (does "*spice*" come out as being similar to "*NPS*"?) and looking at how the actual [*document*](Glossary.md#document) search functionality is working.
 
 Obviously this sort of testing is harder to do systematically, but in the end it's the most important thing because it best reflects the purpose of all of this work.
+
+
+___
+
+[Back to contents](README.md)

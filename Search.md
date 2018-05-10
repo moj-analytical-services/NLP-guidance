@@ -80,3 +80,8 @@ The Word2Vec [*embedding*](Glossary.md#embedding) gives us vectors for each word
 Once the [*embedding*](Glossary.md#embedding) of the search phrase has been done, we can then [*normalise*](Glossary.md#norm) the resulting vector. The similarity score with our [*document*](Glossary.md#document) vector is then the dot product between it and the search phrase vector.
 
 Note that Doc2Vec can also be induced to give word vectors, and so the same methodology can be used, although in this instance the [*document*](Glossary.md#document) vectors will not be similarly-constructed weighted averages of the words within the [*documents*](Glossary.md#document), but rather something else.
+
+
+___
+
+[Back to contents](README.md)

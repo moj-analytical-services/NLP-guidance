@@ -186,3 +186,8 @@ The problem is that we are playing fast and loose with what we are trying to con
 As I say, in practice it seems like the results are still fine, but if anyone knows how to produce a low-rank approximation that minimises changes to angles between points, and can implement it in R, I would be a lot happier.
 
 It might be equivalent (or perhaps: better) to be able to find the optimal *k*-dimensional hyperspherical approximation to data which sits on an *r*-dimensional hypersphere. [These people have done this, but I haven't looked at implementing it in R](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.70.5407&rep=rep1&type=pdf). Their first definition of 'optimal', the 'Fidelity test' seems like it would be appropriate in our case.
+
+
+___
+
+[Back to contents](README.md)
