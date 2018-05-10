@@ -30,6 +30,8 @@ sentences <- sapply(md_files, function(x) readLines(x)) %>% #read files
   mutate(ID = paste0(file, "_", sentence_ID)) %>% 
   select(ID, sentence) #we now have a dataframe of sentences in the repo, tagged by IDs
 
+write.csv(sentences, "sentences.csv") #this is for the Word2Vec stuff
+
 data("stop_words")
 
 clean_text <- sentences %>%

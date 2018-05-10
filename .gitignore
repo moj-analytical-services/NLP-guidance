@@ -3,3 +3,5 @@
 .RData
 .Ruserdata
 packrat/lib*/
+code/packrat/lib*
+code/ipynb_checkpoints/*
