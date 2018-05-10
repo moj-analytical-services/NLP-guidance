@@ -5,3 +5,4 @@
 packrat/lib*/
 code/packrat/lib*
 code/.ipynb_checkpoints/*
+code/.gitignore
