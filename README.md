@@ -19,6 +19,7 @@ This repo contains thoughts and guidance about the use of Natural Language Proce
 ### [Glossary](Glossary.md)
 
 ### Code
-* There is also R code for LSA and LDA accessible in `code/NLP-guidance.Rproj`
+* There is code so you can try out these techniques in practice, located in the `code` folder.
+* [More details about it here](code/Code.md)j`
 
 

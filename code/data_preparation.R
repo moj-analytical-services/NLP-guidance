@@ -1,6 +1,10 @@
-#This R script gets the text from the markdown files in this repo and manipulates it into
-#a tidytext format from which you can do LSA, and in future hopefully other pieces of
-#analysis too
+# This R script gets the text from the markdown files in this repo and manipulates it into
+# a tidytext format which all the techniques use.
+
+# Both the LSA and LDA R scripts source this first so it will be run automatically.
+
+# If you intend to use the Word2Vec vectors, you may wish to manually run this first
+# if you need the `sentences.csv` file.
 
 library(plyr)
 library(tibble)

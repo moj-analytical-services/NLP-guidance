@@ -54,11 +54,17 @@ n_most_similar <- function(search_text, posns, n = 10, sentence_collection = sen
   return(results)
 }
 
+#Analysis
+
+#Firstly we create our term-document matrix
+
 TDM <- clean_word_counts %>% cast_tdm(word, ID, n) %>%
   weightSMART(spec = "btn") %>%
   as.matrix() %>%
   normalize() %>%
   as.simple_triplet_matrix()
+
+# Now we do the Singular Value Decomposition
 
 SVD <- svd(TDM)
 
