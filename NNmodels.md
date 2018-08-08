@@ -97,7 +97,7 @@ Whereas Word2Vec and Doc2Vec were created by Google, fastText is the brainchild 
 
 As far as I know (which isn't much) fastText is an extension of Word2Vec in which words are broken down into their constituent parts, and these parts are used as input in addition to the words. So for example, even if we didn't know what "psychopharmacotherapy" meant we might be able to guess from the bits of words that make it up: "psycho", "pharmaco", "therapy".
 
-Of course breaking up the words in this way makes for a much [*vocabulary*](Glossary.md#vocab), but apparently fastText does some clever things to run quickly. I've never actually tried it because the pre-trained vectors were to large that they blew up my computer.
+Of course breaking up the words in this way makes for a much bigger [*vocabulary*](Glossary.md#vocab), but apparently fastText does some clever things to run quickly. I've never actually tried it because the pre-trained vectors were so large that they blew up my computer.
 
 ## From words to [*documents*](Glossary.md#document)
 
@@ -149,7 +149,7 @@ Unfortunately in practice we haven't yet trained a model on a sufficiently large
 
 ### Looking at the results
 
-Our final test is also the least sophisticated: have a look at the results. This means both look at what comes out as 'most similar' words to a given word of interest (does "*spice*" come out as being similar to "*NPS*"?) and looking at how the actual [*document*](Glossary.md#document) search functionality is working.
+Our final test is also the least well defined: have a look at the results. This means both look at what comes out as 'most similar' words to a given word of interest (does "*spice*" come out as being similar to "*NPS*"?) and looking at how the actual [*document*](Glossary.md#document) search functionality is working.
 
 Obviously this sort of testing is harder to do systematically, but in the end it's the most important thing because it best reflects the purpose of all of this work.
 
