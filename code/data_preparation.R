@@ -14,8 +14,10 @@ library(dplyr)
 library(stringr)
 library(SnowballC)
 
-md_files <- list.files(path = "../", pattern = ".md") %>% #get names of .md files
-  sapply(function(x) paste0("../", x))
+md_files <- c(list.files(path = "../", pattern = ".md", recursive = FALSE ) %>%
+                sapply(function(x) paste0("../", x)),
+              list.files(path = ".", pattern = ".md", recursive = FALSE)) #get filepaths
+names(md_files)[length(md_files)] <- "Code.md"
 
 sentences <- sapply(md_files, function(x) readLines(x)) %>% #read files
   ldply(cbind) %>% #turn files into data frame
