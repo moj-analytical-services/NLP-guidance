@@ -6,7 +6,7 @@ library(slam)
 
 #This normalises the lengths of a matrix to length 1
 normalize <- function(mat){
-  col.lengths <- sapply(1:ncol(mat), function(x) sqrt(sum(mat[, x]^2)))
+  col.lengths <- sapply(1:ncol(mat), function(x) sqrt(sum(mat[, x] ^ 2)))
   return(sweep(mat, 2, col.lengths, "/"))
 }
 
@@ -15,7 +15,7 @@ normalize <- function(mat){
 #The positions are given relevant to the original vector space.
 posns_k <- function(TDM, k){
   svdecomp <- svd(TDM)
-  posns <- svdecomp$u[,1:k] %*% diag(svdecomp$d[1:k]) %*% t(svdecomp$v[,1:k]) %>%
+  posns <- svdecomp$u[, 1:k] %*% diag(svdecomp$d[1:k]) %*% t(svdecomp$v[, 1:k]) %>%
     normalize()
   dimnames(posns) <- dimnames(TDM)
   return(posns)
@@ -28,11 +28,11 @@ sim_scores <- function(search_text, posns){
     unlist()
   search_words <- search_words[which(search_words %in% dimnames(posns)$Terms)]
   print(length(search_words))
-  if(length(search_words) > 1){
-    results <- colSums(posns[search_words,])
+  if (length(search_words) > 1){
+    results <- colSums(posns[search_words, ])
     names(results) <- dimnames(posns)$Docs
-  } else if(length(search_words) == 1) {
-    results <- posns[search_words,] %>% as.vector()
+  } else if (length(search_words) == 1) {
+    results <- posns[search_words, ] %>% as.vector()
     names(results) <- dimnames(posns)$Docs
   } else {
     print("No applicable terms in search, please try again")
@@ -48,9 +48,9 @@ n_most_similar <- function(search_text, posns, n = 10, sentence_collection = sen
     rownames_to_column(var = "ID") %>%
     rename(sim_score = value)
    results <- sentence_collection %>%
-     filter(ID %in% scores$ID) %>%
-     join(scores) %>%
-     arrange(desc(sim_score))
+     dplyr::filter(ID %in% scores$ID) %>%
+     plyr::join(scores) %>%
+     dplyr::arrange(desc(sim_score))
   return(results)
 }
 
@@ -58,11 +58,12 @@ n_most_similar <- function(search_text, posns, n = 10, sentence_collection = sen
 
 #Firstly we create our term-document matrix
 
-TDM <- clean_word_counts %>% cast_tdm(word, ID, n) %>%
-  weightSMART(spec = "btn") %>%
+TDM <- clean_word_counts %>%
+  tidytext::cast_tdm(word, ID, n) %>%
+  tm::weightSMART(spec = "btn") %>%
   as.matrix() %>%
   normalize() %>%
-  as.simple_triplet_matrix()
+  slam::as.simple_triplet_matrix()
 
 # Now we do the Singular Value Decomposition
 
