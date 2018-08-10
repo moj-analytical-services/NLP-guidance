@@ -111,3 +111,5 @@ The scheme by which we go from a vector of counts of each word in the *vocabular
 ___
 
 [Back to contents](README.md)
+
+Written by [Sam Tazzyman](mailto:samuel.tazzyman@justice.gov.uk), DaSH, MoJ

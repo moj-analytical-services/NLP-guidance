@@ -1,5 +1,7 @@
 # Natural Language Processing guidance
-This repo contains thoughts and guidance about the use of Natural Language Processing, based on the experience of using these techniques in a few projects.
+This repo contains thoughts and guidance about the use of Natural Language Processing, based on the experience of using these techniques in a few projects here at the Data Science Hub in the Ministry of Justice.
+
+If you have any thoughts or feedback on any of this, especially if you disagree, please [email me](mailto:samuel.tazzyman@justice.gov.uk).
 
 ## Contents
 

@@ -85,3 +85,5 @@ Note that Doc2Vec can also be induced to give word vectors, and so the same meth
 ___
 
 [Back to contents](README.md)
+
+Written by [Sam Tazzyman](mailto:samuel.tazzyman@justice.gov.uk), DaSH, MoJ

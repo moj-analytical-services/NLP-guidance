@@ -191,3 +191,5 @@ It might be equivalent (or perhaps: better) to be able to find the optimal *k*-d
 ___
 
 [Back to contents](README.md)
+
+Written by [Sam Tazzyman](mailto:samuel.tazzyman@justice.gov.uk), DaSH, MoJ

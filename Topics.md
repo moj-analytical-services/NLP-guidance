@@ -58,3 +58,5 @@ In all cases, time spent looking at your topics/[*clusters*](Glossary.md#cluster
 ___
 
 [Back to contents](README.md)
+
+Written by [Sam Tazzyman](mailto:samuel.tazzyman@justice.gov.uk), DaSH, MoJ

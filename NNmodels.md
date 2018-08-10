@@ -157,3 +157,5 @@ Obviously this sort of testing is harder to do systematically, but in the end it
 ___
 
 [Back to contents](README.md)
+
+Written by [Sam Tazzyman](mailto:samuel.tazzyman@justice.gov.uk), DaSH, MoJ

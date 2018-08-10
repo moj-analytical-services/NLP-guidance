@@ -81,3 +81,5 @@ If we can't comprehensibly explain what our topics are about, and we can't trust
 ___
 
 [Back to contents](README.md)
+
+Written by [Sam Tazzyman](mailto:samuel.tazzyman@justice.gov.uk), DaSH, MoJ

@@ -22,3 +22,5 @@ Understand some type of linguistic input and translate it to some action (e.g. a
 ___
 
 [Back to contents](README.md)
+
+Written by [Sam Tazzyman](mailto:samuel.tazzyman@justice.gov.uk), DaSH, MoJ
