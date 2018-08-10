@@ -9,7 +9,7 @@
 
 To let you try out some of these ideas in practice, because I think that's a good way to learn.
 
-## Data
+## Data
 
 The data we use for practicing these techniques is the text in this guide, because I like pretentious self-reference in writing. Also because hopefully you're familiar enough with the text to get a feel for the techniques in practice.
 
