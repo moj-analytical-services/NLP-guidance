@@ -2,6 +2,7 @@
 
 ## TL; DR
 
+* There is code in the `code` folder of the repo: https://github.com/moj-analytical-services/NLP-guidance
 * You can do [LSA](../LSA.md) or [LDA](../LDA.md) in R using the `NLP-guidance.Rproj` R project file
 * You can try some [pre-trained Neural Network generated vectors](../NNmodels.md) in Python via the `Pretrained_vectors.ipynb` file
 

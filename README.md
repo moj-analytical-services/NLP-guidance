@@ -21,7 +21,7 @@ If you have any thoughts or feedback on any of this, especially if you disagree,
 ### [Glossary](Glossary.md)
 
 ### Code
-* There is code so you can try out these techniques in practice, located in the `code` folder
+* There is code so you can try out these techniques in practice, located in the `code` folder in the repo: https://github.com/moj-analytical-services/NLP-guidance
 * [More details about it here](code/Code.md)
 
 
