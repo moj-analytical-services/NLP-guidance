@@ -90,7 +90,7 @@ My concern is that we are in danger of just trying lots of measures and picking 
 
 I worry that we are just amplifying noise and projecting our own expectations on to it, rather than actually uncovering signal.
 
-On the plus side, maybeb we could try to instead get a good description of our Topic by looking at [*documents*](Glossary.md#document) that have high content from this Topic and seeing what similarities they seem to have. I am a bit sceptical about this too, because a) these [*documents*](Glossary.md#document) will also have other topical content, b) as we see from Problem 1, there is no reason to suspect that the topical content assigned to [*documents*](Glossary.md#document) is robust, and c) if this procedure reliably worked, why would people keep coming up with new measures for term-to-topic relevance as seen above?
+On the plus side, maybe we could try to instead get a good description of our Topic by looking at [*documents*](Glossary.md#document) that have high content from this Topic and seeing what similarities they seem to have. I am a bit sceptical about this too, because a) these [*documents*](Glossary.md#document) will also have other topical content, b) as we see from Problem 1, there is no reason to suspect that the topical content assigned to [*documents*](Glossary.md#document) is robust, and c) if this procedure reliably worked, why would people keep coming up with new measures for term-to-topic relevance as seen above?
 
 ## Conclusion
 
