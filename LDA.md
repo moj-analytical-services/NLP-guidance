@@ -57,7 +57,11 @@ While attempting this approach on consultations, we found that consultation resp
 
 Since LDA results are probabilistic, we wouldn't necessarily expect identically-worded [*documents*](Glossary.md#document) to have the exact same topical distributions. But for the distributions to be completley different seems to me to render the results meaningless: if the topics purport to summarise the themes within the [*corpus*](Glossary.md#corpus), and if identical [*documents*](Glossary.md#document) are being suggested to have completely different topics within them, then the credibility of the topics is irreparably damaged in my opinion.
 
-It should be added that since writing this I have written a toy bit of code on LDA for this repo (found in the `code` folder) and have not managed to replicate this problem. So maybe it was just the package that we and DfT were using, or maybe it's a problem that only crops up when you have a sufficiently large data set. The next problem is still present, however.
+It should be added that since writing this I have written a toy bit of code on LDA for this repo (found in the `code` folder) and have not managed to replicate this problem. So maybe it was just the package that we and DfT were using, or maybe it's a problem that only crops up when you have a sufficiently large data set. 
+
+Update: using the `topicmodels` library in `R`, I haven't been able to replicate this problem. So maybe it's no longer a problem!
+
+The next problem is still present, however.
 
 
 ### Problem 2: the results are not explicable
@@ -66,17 +70,35 @@ This relates to problem 1, and in fact for a while this issue prevented us from 
 
 The results of an LDA give probability distributions for the topics over the [*vocabulary*](Glossary.md#vocab). In practice this means a list of words from the [*vocabulary*](Glossary.md#vocab), each with a probability associated with it. We can of course list the words in order of decreasing probability, and look at the top *j* words per topic for some *j*. We can look at all of the words above some threshold probability. We can look at words that occur with high probability within this topic when compared to their probability of occurrence across all topics (some very common words have high probability in all topics, while rare words might have low probability within this topic, but extremely low probability across the other topics). We can look at subtle and clever combinations of these values.
 
-Regardless of what we do, we're looking at a list of words that is somehow representative of this topic. But these words typically don't fit together in an easily-comprehensible way. It typically isn't the case that we get a list like:
-> Topic 1: banana, orange, grapefruit, peel, vitamin, five, watermelon
+Regardless of what we do, we're looking at a list of words that is somehow representative of this topic. But these words typically don't fit together in an easily-comprehensible way. We don't usually get a list like:
+> Topic x: banana, orange, grapefruit, peel, vitamin, five, watermelon
 
 More usual is that, whichever method we use, we get some slightly odd mix of words and we have to strain a bit to say what this Topic is 'about' semantically.
 
-We could try to instead get a good description of our Topic by looking at [*documents*](Glossary.md#document) that have high content from this Topic. But a) these [*documents*](Glossary.md#document) will also have other topical content, and (more damningly) b) as we see from Problem 1, there is no reason to suspect that the topical content assigned to [*documents*](Glossary.md#document) is robust. Of course it may be that with the correct parameters or approach, Problem 1 would be solved, and thus Problem 2 would be easier to solve.
+An example is the LDA done on this guide by the example code. At the time of writing, this gives three topics. One of them clearly contains the mathematical terms, which is great. The other two have the following as most probable terms:
+> Topic 1: words, set, sam, written, ham, moj, https, good, word, back  
+> Topic 3: vectors, documents, words, document, vector, lda, term, text, practice, terms 
+
+It's hard for me to convincingly describe the semantic content of these topics with respect to this guide.
+
+Now, of course, we could look at other measures to try to discover a telling list of terms associated with each topic. There are no shortage of options. We could consider the [term-lift](http://proceedings.mlr.press/v22/taddy12/taddy12.pdf), which accounts for how prevalent a term is across all topics (e.g. "words" appears in Topics 1 and 3 above, and so is not a good way of distinguishing the meaning of these to topics). We could consider [saliency](http://vis.stanford.edu/files/2012-Termite-AVI.pdf), which accounts for "how informative the specific term is for determining
+the generating topic, versus a randomly-selected term" in an information-theoretic sense. We could go for [relevance](https://nlp.stanford.edu/events/illvi2014/papers/sievert-illvi2014.pdf), which is an average of pure probability and the term-lift from above, weighted in some way of our choosing. We could no doubt pick various other options too.
+
+Or we could start to worry that there are a lot of subtly-different measures here, and seemingly no obvious best choice.
+
+My concern is that we are in danger of just trying lots of measures and picking the one that gives us what seems like the results we expect. I worry that we could do this and find spurious meaning even if we had completely random results, with no underlying relation to the words in our corpus (other than the same words and overall word frequencies).
+
+I worry that we are just amplifying noise and projecting our own expectations on to it, rather than actually uncovering signal.
+
+On the plus side, maybeb we could try to instead get a good description of our Topic by looking at [*documents*](Glossary.md#document) that have high content from this Topic and seeing what similarities they seem to have. I am a bit sceptical about this too, because a) these [*documents*](Glossary.md#document) will also have other topical content, b) as we see from Problem 1, there is no reason to suspect that the topical content assigned to [*documents*](Glossary.md#document) is robust, and c) if this procedure reliably worked, why would people keep coming up with new measures for term-to-topic relevance as seen above?
 
 ## Conclusion
 
-If we can't comprehensibly explain what our topics are about, and we can't trust the assignment of topics to [*documents*](Glossary.md#document), it's hard to see a use case for LDA.
+As you can tell, I am dubious and sceptical about a use case for LDA. 
 
+I hope that I am wrong, because the premise of topic modelling is a very seductive one. But if we can't comprehensibly explain what our topics are about, and we can't trust the assignment of topics to [*documents*](Glossary.md#document), it's hard to see a use case.
+
+If you are reading this and thinking "but I've got a perfect use case, where I found something novel and robust from a corpus using LDA", and you can share it with me, then **please get in touch!** at the email address below.
 
 ___
 

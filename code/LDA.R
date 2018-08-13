@@ -40,7 +40,8 @@ topicmodels_json_ldavis <- function(fitted, corpus, doc_term){
 # word counts with no weighting or anything
 DTM <- full_word_counts %>% tidytext::cast_dtm(ID, word, n)
 
-num_topics <- 4
+num_topics <- 3 #arbitarily chosen - I tried 4 and LDAvis showed two of them
+# pretty much overlapping. So I've changed to three
 
 #generate our LDA object using the LDA() command from topicmodels package
 lda_object <- topicmodels::LDA(DTM, k = num_topics, control = list(seed = 1234))
