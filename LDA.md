@@ -6,7 +6,7 @@
 * The results then find these hidden topics, and give us the words that make up each topic, in the form of a probability distribution over thje [*vocabulary*](Glossary.md#vocab) for each topic.
 * They also give us the topical mix for each [*document*](Glossary.md#document), in the form of a probability distribution over the topics for each [*document*](Glossary#document).
 * Unfortunately we have encountered two major problems with the results when we've tried this. These problems may be with our implementations rather than with the method, but we have tried on different data (and colleagues from another department independently had the same problems).
-* The main problem is that the assignment of topics to [*document*](Glossary.md#document) does not appear to be sensible - we found that [*documents*(Glossary.md#document)] with identical wording were being stated as having wildly different topical content.
+* The main problem is that the assignment of topics to [*document*](Glossary.md#document) does not appear to be sensible - we found that [*documents*](Glossary.md#document) with identical wording were being stated as having wildly different topical content.
 * The secondary problem is that the topics themselves are extremely challenging to describe in a semantically-meaningful way; rather they often seem to be arbitrary lists of words whose co-appearance in [*documents*](Glossary.md#document) is not indicative of any thematic commonality.
 * We have stopped trying to implement LDA for the moment.
 
@@ -98,7 +98,7 @@ As you can tell, I am dubious and sceptical about a use case for LDA.
 
 I hope that I am wrong, because the premise of topic modelling is a very seductive one. But if we can't comprehensibly explain what our topics are about, and we can't trust the assignment of topics to [*documents*](Glossary.md#document), it's hard to see a use case.
 
-If you are reading this and thinking "but I've got a perfect use case, where I found something novel and robust from a corpus using LDA", and you can share it with me, then **please get in touch!** at the email address below.
+If you are reading this and thinking "but I've got a perfect use case, where I found something novel and robust from a corpus using LDA", and you can share it with me, then **please get in touch at the email address below**.
 
 ___
 
